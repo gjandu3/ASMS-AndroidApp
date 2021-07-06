@@ -19,18 +19,27 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AnimalActivity extends AppCompatActivity{
 
-    String myUrl = "https://asms.herokuapp.com/animals";
+    String myUrl = "https://asms.herokuapp.com/animals/";
     RequestQueue queue;
     ArrayList<Animal> animalList = new ArrayList<>();
+    CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,8 @@ public class AnimalActivity extends AppCompatActivity{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         queue = Volley.newRequestQueue(this);
+        customAdapter = new CustomAdapter(AnimalActivity.this, animalList, queue);
+        recyclerView.setAdapter(customAdapter);
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, myUrl, null,
                 new Response.Listener<JSONArray>() {
@@ -61,17 +72,23 @@ public class AnimalActivity extends AppCompatActivity{
                                     e.printStackTrace();
                                 }
                             }
-                            CustomAdapter customAdapter = new CustomAdapter(AnimalActivity.this, animalList);
-                            recyclerView.setAdapter(customAdapter);
+                            customAdapter.notifyDataSetChanged();
                         }
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AnimalActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AnimalActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
         queue.add(request);
+    }
+
+    public void update() {
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(getIntent());
+        overridePendingTransition(0,0);
     }
 
 }

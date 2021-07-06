@@ -1,3 +1,4 @@
+
 package com.example.asms;
 
 public class Animal {
@@ -10,7 +11,7 @@ public class Animal {
     public String animalIntakeReason;
 
     Animal (String animalId, String animalName, String animalImage, String animalBreed,
-           String animalAge, String animalIntakeReason) {
+            String animalAge, String animalIntakeReason) {
         this.animalId = animalId;
         this.animalName = animalName;
         this.animalImage = animalImage;
@@ -42,3 +43,4 @@ public class Animal {
     }
 
 }
+

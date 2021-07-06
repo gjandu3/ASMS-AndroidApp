@@ -1,6 +1,8 @@
 package com.example.asms;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -20,10 +28,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     ArrayList<Animal> animalList;
     Context context;
+    RequestQueue queue;
 
-    public CustomAdapter(Context context, ArrayList<Animal> animalList) {
+    public CustomAdapter(Context context, ArrayList<Animal> animalList, RequestQueue queue) {
         this.context = context;
         this.animalList = animalList;
+        this.queue =  queue;
     }
 
     @Override
@@ -40,10 +50,34 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.breed.setText(animalList.get(position).getAnimalBreed());
         holder.age.setText(animalList.get(position).getAnimalAge() + " years old");
         holder.intakeReason.setText(animalList.get(position).getAnimalIntakeReason());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, animalList.get(position).getAnimalName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String animalId = animalList.get(position).getAnimalId();
+                String deleteUrl = "https://asms.herokuapp.com/animals/" + animalId;
+                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, deleteUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if (context instanceof AnimalActivity) {
+                                    ((AnimalActivity)context).update();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(context, "That didn't work", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        queue.add(stringRequest);
             }
         });
     }
