@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/form"
+        android:title="Form"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/animalList"
+        android:title="List of Animals"
+        android:icon="@drawable/ic_list"/>
+
+</menu>

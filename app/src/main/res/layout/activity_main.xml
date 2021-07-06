@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/openanimal"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="See Animals"/>
+        android:id="@+id/navBar"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/menu_navigation"
+        android:background="@color/purple_500"/>
 
 </RelativeLayout>
