@@ -1,6 +1,7 @@
 
 package com.example.asms;
 
+//Animal class for displaying animals on application
 public class Animal {
 
     public String animalId;

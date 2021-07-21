@@ -1,8 +1,6 @@
 package com.example.asms;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,29 +11,29 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+//Custom Adapter class used to display each individual animal
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
+    //Classwide variables
     ArrayList<Animal> animalList;
     Context context;
     RequestQueue queue;
 
+    //Sets the custom adapter and variables that were passed in
     public CustomAdapter(Context context, ArrayList<Animal> animalList, RequestQueue queue) {
         this.context = context;
         this.animalList = animalList;
         this.queue =  queue;
     }
 
+    //Sets the viewholder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rowlayout, parent, false);
@@ -43,6 +41,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return vh;
     }
 
+    /*Corresponds custom adapter variables with what was sent in
+    Along with creating an on click listener for the delete button for each animal */
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.name.setText(animalList.get(position).getAnimalName());
@@ -51,34 +51,18 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.age.setText(animalList.get(position).getAnimalAge() + " years old");
         holder.intakeReason.setText(animalList.get(position).getAnimalIntakeReason());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, animalList.get(position).getAnimalName(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.itemView.setOnClickListener(view -> Toast.makeText(context, animalList.get(position).getAnimalName(), Toast.LENGTH_SHORT).show());
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String animalId = animalList.get(position).getAnimalId();
-                String deleteUrl = "https://asms.herokuapp.com/animals/" + animalId;
-                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, deleteUrl,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                if (context instanceof AnimalActivity) {
-                                    ((AnimalActivity)context).update();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(context, "That didn't work", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        queue.add(stringRequest);
-            }
+        holder.delete.setOnClickListener(v -> {
+            String animalId = animalList.get(position).getAnimalId();
+            String deleteUrl = "https://asms.herokuapp.com/animals/" + animalId;
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, deleteUrl,
+                    response -> {
+                        if (context instanceof AnimalActivity) {
+                            ((AnimalActivity)context).update();
+                        }
+                    }, error -> Toast.makeText(context, "That didn't work", Toast.LENGTH_SHORT).show());
+                    queue.add(stringRequest);
         });
     }
 
@@ -87,6 +71,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return animalList.size();
     }
 
+    // Corresponds variables with the xml layout for each card
     public class MyViewHolder extends RecyclerView.ViewHolder {
         Button delete;
         TextView name, breed, age, intakeReason;

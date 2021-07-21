@@ -18,6 +18,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/header"
         android:text="Animal Shelter Management System"
         android:textSize="25dp"
@@ -36,6 +37,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/Name"
         android:hint="Name"
         android:layout_centerHorizontal="true"
@@ -46,6 +48,7 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/Species"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/Name"
@@ -54,6 +57,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/Breed"
         android:hint="Breed"
         android:layout_centerHorizontal="true"
@@ -64,6 +68,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/Age"
         android:hint="Age"
         android:layout_centerHorizontal="true"
@@ -74,6 +79,7 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/intakeReason"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/Age"
@@ -83,6 +89,7 @@
         android:id="@+id/UploadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:text="Upload Image"
         android:layout_below="@id/intakeReason"
@@ -91,7 +98,7 @@
     <ImageView
         android:id="@+id/ImagePreview"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/UploadButton"/>
 
